@@ -1,0 +1,22 @@
+#this is a comment
+
+option "help" {
+    print "Welcome to Synapse Scripting Language!"
+
+    flag "-short" {
+        #Default delimiter is space!
+        print "Welcome! \n"
+    }
+
+    flag "--name",delimiter="=",argcount=1{
+        print "Welcome, "
+        print arg:0
+        print "! \n"
+    }
+}
+
+option "send"{
+    flag "-text",argcount=1{
+        addToPayload "received",arg:0
+    }
+}
