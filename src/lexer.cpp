@@ -83,6 +83,7 @@ std::vector<Token> lex(std::string_view source)
                 buffer.push_back(source[i]);
                 ++i;
             }
+            --i;
             if (buffer == "true")
             {
                 token.location = {i, buffer.size()};
@@ -134,22 +135,7 @@ std::vector<Token> lex(std::string_view source)
                     ++k;
                 }
             }
-
-            if (value == 0)
-            {
-                token.location = {i, 1};
-            }
-            else
-            {
-                size_t digitCount = 0;
-
-                for (auto n = value; n > 0; n /= 10)
-                {
-                    ++digitCount;
-                }
-
-                token.location = {i, digitCount};
-            }
+            token.location = {i,k,line,i};
             token.value = {ActiveValue::Number, value};
             tokens.push_back(token);
 
@@ -183,21 +169,7 @@ std::vector<Token> lex(std::string_view source)
                     ++k;
                 }
             }
-            if (value == 0)
-            {
-                token.location = {i, 1};
-            }
-            else
-            {
-                size_t digitCount = 0;
-
-                for (auto n = value; n > 0; n /= 10)
-                {
-                    ++digitCount;
-                }
-
-                token.location = {i, digitCount};
-            }
+            token.location = {i,1+k,line,i};
             token.value = {ActiveValue::Number, -value};
             tokens.push_back(token);
 

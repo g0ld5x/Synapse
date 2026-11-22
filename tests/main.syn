@@ -1,6 +1,9 @@
 #this is a comment
+target "../executeable"
+
 
 option "help" {
+    addToPayload "commandUsed","help"
     print "Welcome to Synapse Scripting Language!"
 
     flag "-short" {

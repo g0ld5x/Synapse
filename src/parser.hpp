@@ -3,11 +3,20 @@
 #include <string>
 #include "lexer.hpp"
 
+enum class Context{
+    Flag,
+    Option,
+    MainBody,
+    OptionBody,
+    FlagBody,
+};
+
 struct InstructionValue
 {
     Value literal;
     size_t argIndex;
     bool isLiteral;
+    bool isSuccesfull;
 };
 
 enum class InstructionType
@@ -16,6 +25,7 @@ enum class InstructionType
     Flag,
     Print,
     AddToPayload,
+    Target
 };
 
 struct CommonInstruction
@@ -24,6 +34,9 @@ struct CommonInstruction
     std::string name;                        // for the names of flags and options
     std::vector<InstructionValue> arguments; // for arguments that commands receive. ex: print "Hello","From","Synapse".
     std::vector<CommonInstruction> body;     // the body of options or blocks.
+
+    std::string delimiter; //for flag
+    int argCount= 0;
 };
 
 struct parseResult
@@ -32,4 +45,4 @@ struct parseResult
     std::vector<CommonInstruction> body;
 };
 
-parseResult parse(std::vector<Token> &tokens, size_t &i);
+parseResult parse(std::vector<Token> &tokens, size_t &i,Context  context);
